@@ -1,5 +1,7 @@
 import unittest
+
 from main import hello,bye
+
 
 class TestMain(unittest.TestCase):
   def test_hello(self):
