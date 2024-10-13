@@ -1,9 +1,12 @@
-name: Super-Linter
+name: CI Workflow
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  super-lint:
+  lint:
     name: Lint code base
     runs-on: ubuntu-latest
     steps:
@@ -15,3 +18,21 @@ jobs:
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  test:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Tests
+        run: python -m unittest discover
